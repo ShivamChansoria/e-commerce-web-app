@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import $ from 'jquery';
+
+
+$("button").click(function(){
+  $.get("demo_test.asp", function(data, status){
+      alert("Data: " + data + "\nStatus: " + status);
+  });
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

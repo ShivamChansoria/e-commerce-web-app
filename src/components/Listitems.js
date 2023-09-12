@@ -1,31 +1,45 @@
 //File for making reusable items compnent.
 import placeholder from '../assets/placeholder1.png';
 import carticon from "../assets/R```.png";
-import {useState} from "react";
+import {Fragment, useState} from "react";
+import Modal from "./UI/Modal";
 
 import "../index.scss"
 //Defiinig "Component"
-const Listitems = ({item, updateItemTitle, key}) => { //We use paranthesis in props bacause here it is an object passing the data of the items.
-    const [counter, setCounter]= useState(0);
-    const descreaseCounterByOne = () =>{
-        if(counter<=0){
-        return counter;
+const Listitems = ({item, updateItemTitle, onAdd, onRemove}) => { //We use paranthesis in props bacause here it is an object passing the data of the items.
+    // const [counter, setCounter]= useState(0);
+    const [showModal, setShowModal] = useState(false);
+    
+
+    const descreaseCounterByOne = (e) =>{
+        e.stopPropagation();//For stopping the execution of the other clicking events on the target element used in their parent element.
+        if(item.quantity===0){
+        return item.quantity;
          }
-        setCounter(counter-1);
+        //  if(item.quantity===1)onRemove(item.id);
+        onRemove(item.id);
+        // setCounter(counter-1);
     }
-    const increaseCounterByOne = () =>{
-        if(counter===5){
+    const increaseCounterByOne = (e) =>{
+        e.stopPropagation();//For stopping the execution of the other clicking events on the target element.
+        if(item.quantity>=5){
         alert("Max capacity exceeded for an single item")
-        return counter;
+        return item.quantity;
          }
-        setCounter(counter+1);
+         onAdd(item.id);
+        // setCounter(counter+1);
+
+    }
+    const handleModal = () =>{
+        setShowModal(!showModal);
     }
 
      return(
-        <span className={"item-card"}>
+        <Fragment>
+        <div onClick={handleModal} className={"item-card"}>
             <img className={"img-fluid"}src={placeholder} alt={item.title} height="200vh" />
             <div className={"item-card__information"}>
-                <div>
+                <div className='pricing'>
                    <span> ₹{item.discountedPrice}</span>
                    <small> ₹
                         <del>
@@ -37,8 +51,8 @@ const Listitems = ({item, updateItemTitle, key}) => { //We use paranthesis in pr
                    <h3>{item.title}</h3>
                 </div>
             </div>
-            <button onClick={() =>updateItemTitle(item.id)}>Update Title</button>
-           { counter<1?
+            {/* <button onClick={() =>updateItemTitle(item.id)}>Update Title</button> */}
+           { item.quantity<1?
                <button className={'cart-add'} onClick={increaseCounterByOne} >
                <span><b>Add To Cart</b></span>
                <img src={carticon} alt="carticon" height="20vh"/>
@@ -46,12 +60,45 @@ const Listitems = ({item, updateItemTitle, key}) => { //We use paranthesis in pr
              :
              <div className={"cart-addon"}>
              <button onClick={descreaseCounterByOne}><span>-</span></button>
-             <span className={"counter"}>{counter}</span>
+             <span className={"counter"}>{item.quantity}</span>
              <button onClick={increaseCounterByOne}><span>+</span></button>
             </div>
            }
      
-    </span>
+           </div>
+        {showModal && <Modal onClose={handleModal}>
+            {/* Providng the child elements to the Modal Component under the tag declaration. */}
+            <div className='item-card--modal'>
+                <div className='img-wrap'>
+                <img className={"img-fluid"}src={placeholder} alt={item.title} height="200vh" />
+                </div>
+                <div className='meta'>
+                    <h3>{item.title}</h3>
+                    <div className='pricing'>
+                   <span> ₹{item.discountedPrice}</span>
+                   <small> ₹
+                        <del>
+                        {item.price}
+                        </del>
+                </small>
+                </div>
+                <p>{item.description}</p>
+                </div>
+                {item.quantity<1?
+               <button className={'cart-add'} onClick={increaseCounterByOne} >
+               <span><b>Add To Cart</b></span>
+               <img src={carticon} alt="carticon" height="20vh"/>
+             </button>
+             :
+             <div className={"cart-addon"}>
+             <button onClick={descreaseCounterByOne}><span>-</span></button>
+             <span className={"counter"}>{item.quantity}</span>
+             <button onClick={increaseCounterByOne}><span>+</span></button>
+            </div>
+           }
+            </div>
+        </Modal> }
+    </Fragment>
      )
 };
 export default Listitems;
