@@ -3,32 +3,31 @@ import placeholder from '../assets/placeholder1.png';
 import carticon from "../assets/R```.png";
 import {Fragment, useState} from "react";
 import Modal from "./UI/Modal";
-
+import {useDispatch, useSelector} from "react-redux";
 import "../index.scss"
+import { addItemHandler, removeItemHandler } from '../actions';
+
 //Defiinig "Component"
-const Listitems = ({item, updateItemTitle, onAdd, onRemove}) => { //We use paranthesis in props bacause here it is an object passing the data of the items.
+const Listitems = ({item, updateItemTitle }) => { //We use paranthesis in props bacause here it is an object passing the data of the items.
     // const [counter, setCounter]= useState(0);
     const [showModal, setShowModal] = useState(false);
-    
+    const stateItem = useSelector(state =>state.items.find(stateItem => stateItem.id ===item.id) );//It will extract the current item from the Redux store according to the 'id'.
+    const dispatch = useDispatch();
 
-    const descreaseCounterByOne = (e) =>{
-        e.stopPropagation();//For stopping the execution of the other clicking events on the target element used in their parent element.
-        if(item.quantity===0){
-        return item.quantity;
-         }
-        //  if(item.quantity===1)onRemove(item.id);
-        onRemove(item.id);
-        // setCounter(counter-1);
-    }
     const increaseCounterByOne = (e) =>{
         e.stopPropagation();//For stopping the execution of the other clicking events on the target element.
-        if(item.quantity>=5){
-        alert("Max capacity exceeded for an single item")
-        return item.quantity;
-         }
-         onAdd(item.id);
+        dispatch(addItemHandler(item))
+        //  onAdd(item.id);
         // setCounter(counter+1);
 
+    }
+    const descreaseCounterByOne = (e) =>{
+        e.stopPropagation();//For stopping the execution of the other clicking events on the target element used in their parent element.
+        // console.log(stateItem.quantity);
+        dispatch(removeItemHandler(item));
+        //  if(item.quantity===1)onRemove(item.id);
+        // onRemove(item.id);//Call the onRemove method by using the 'id' of the item.
+        // setCounter(counter-1);
     }
     const handleModal = () =>{
         setShowModal(!showModal);
@@ -52,7 +51,8 @@ const Listitems = ({item, updateItemTitle, onAdd, onRemove}) => { //We use paran
                 </div>
             </div>
             {/* <button onClick={() =>updateItemTitle(item.id)}>Update Title</button> */}
-           { item.quantity<1?
+           {
+           !stateItem || stateItem.quantity<1 ?
                <button className={'cart-add'} onClick={increaseCounterByOne} >
                <span><b>Add To Cart</b></span>
                <img src={carticon} alt="carticon" height="20vh"/>
@@ -60,7 +60,7 @@ const Listitems = ({item, updateItemTitle, onAdd, onRemove}) => { //We use paran
              :
              <div className={"cart-addon"}>
              <button onClick={descreaseCounterByOne}><span>-</span></button>
-             <span className={"counter"}>{item.quantity}</span>
+             <span className={"counter"}>{stateItem.quantity}</span>
              <button onClick={increaseCounterByOne}><span>+</span></button>
             </div>
            }
@@ -84,7 +84,8 @@ const Listitems = ({item, updateItemTitle, onAdd, onRemove}) => { //We use paran
                 </div>
                 <p>{item.description}</p>
                 </div>
-                {item.quantity<1?
+                {
+           !stateItem || stateItem.quantity<1 ?
                <button className={'cart-add'} onClick={increaseCounterByOne} >
                <span><b>Add To Cart</b></span>
                <img src={carticon} alt="carticon" height="20vh"/>
@@ -92,7 +93,7 @@ const Listitems = ({item, updateItemTitle, onAdd, onRemove}) => { //We use paran
              :
              <div className={"cart-addon"}>
              <button onClick={descreaseCounterByOne}><span>-</span></button>
-             <span className={"counter"}>{item.quantity}</span>
+             <span className={"counter"}>{stateItem.quantity}</span>
              <button onClick={increaseCounterByOne}><span>+</span></button>
             </div>
            }

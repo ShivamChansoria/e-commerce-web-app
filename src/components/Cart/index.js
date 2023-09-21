@@ -2,20 +2,43 @@
 
 import { Fragment, useState } from "react";
 import Modal from "../UI/Modal";
-import placeholder from "./placeholder1.png"
+import CartItem from "./CartItem";
+import Order from "./Order";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemHandler, clearCartHandler, removeItemHandler } from "../../actions";
 
-const Cart = ( {count} ) =>{
+const Cart = () =>{
  
+    // let totalAmount=0;
     const [showModal, setShowModal] = useState(false);
+    const [orderModal, setOrderModal] = useState(false);
+    const totalAmount = useSelector(state => state.totalAmount);// Will take total amount from central store.
+    const items = useSelector(state => state.items);//State of the items is passed to the useSelector now when the item state is changed it will be triggered!! 
+    const dispatch = useDispatch();//Based on condtional statements on types it will dispatches the new states.
+   
+    const dispatchEvents = (type, item) => { //This function handles the cart ADD/REMOVE events.
+        if(type === 1 ){
+            dispatch(addItemHandler(item))
+        }
+        else if(type === -1){
+            dispatch(removeItemHandler(item))
+        }
+    }
+
     const handleModal = () =>{
         setShowModal(!showModal);
+    }
+    const handleOrderModal = () =>{
+        setShowModal(false);
+        dispatch(clearCartHandler()) //Will clear the cart after placing successfull order.
+        setOrderModal(!orderModal);
     }
 
     return(
         <Fragment>
         <div className="cart-container">
             <button onClick={handleModal}>
-                <span data-items={count}>Cart</span>
+                <span data-items={items.length}>Cart</span>
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-shopping-cart-plus" width="20" height="20" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <circle cx="6" cy="19" r="2" />
@@ -31,33 +54,22 @@ const Cart = ( {count} ) =>{
             <Modal onClose={handleModal}>
                 <div className="checkout-modal">
                     <h2>Checkout Modal</h2>
-                { count>0? <div className="checkout-modal_list">
-                    <div className="checkout-modal_list-item">
-                        <div className="img-wrap">
-                           <img src={placeholder} alt="placeholder" className="img-fluid" height="100vh"/>
-                        </div>
-                        <div className="information">
-                            <h4>Title of the product</h4>
-                            <div className="pricing">
-                                <span>2000Rs</span>
-                                <small>
-                                    <strike>2500Rs</strike>
-                                </small>
-                            </div>
-                        </div>
-                        <div className="cart-addon cart-addon__modal">
-                            <button>-</button>
-                            <span className="counter">{0}</span>
-                            <button>+</button>
-                        </div>
-                    </div>
+                { 
+                items.length>0? 
+                <div className="checkout-modal_list">
+                    {items.map(item => {
+                        // totalAmount+=item.discountedPrice*item.quantity;
+                        return (<CartItem data={item} key={item.id} 
+                            onEmitDecreaseItem={(item)=> dispatchEvents(-1, item)} 
+                            onEmitIncreaseItem={(item)=> dispatchEvents(1, item,)} />)
+                    })}
                      <div className="checkout-modal_footer">
                         <div className="totalAmount">
-                            <h4>Total Amount</h4>
-                            <h4>2000 INR</h4>
+                            <h4>Total Amount :</h4>
+                            <h4>₹{totalAmount} (INR)</h4>
                         </div>
                         <div>
-                            <button>Order Now</button>
+                            <button onClick={handleOrderModal}>Order Now</button>
                         </div>
                     </div>
                     </div>
@@ -67,6 +79,7 @@ const Cart = ( {count} ) =>{
                 </div> 
             </Modal>
         }
+        { orderModal && <Order onClose={handleOrderModal} totalAmount={totalAmount} />}
         </Fragment>
     )
 };
