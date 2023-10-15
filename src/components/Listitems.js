@@ -1,17 +1,16 @@
-//File for making reusable items compnent.
-import placeholder from '../assets/placeholder1.png';
-import carticon from "../assets/R```.png";
+//File for making reusable product items compnent.
+import carticon from "./Cart/R```.png";
 import {Fragment, useState} from "react";
 import Modal from "./UI/Modal";
 import {useDispatch, useSelector} from "react-redux";
 import "../index.scss"
 import { addItemHandler, removeItemHandler } from '../actions';
 
-//Defiinig "Component"
-const Listitems = ({item, updateItemTitle }) => { //We use paranthesis in props bacause here it is an object passing the data of the items.
+//Definig "Component"
+const Listitems = ({item }) => { //We use paranthesis in props bacause here it is an object passing the data of the items.
     // const [counter, setCounter]= useState(0);
     const [showModal, setShowModal] = useState(false);
-    const stateItem = useSelector(state =>state.items.find(stateItem => stateItem.id ===item.id) );//It will extract the current item from the Redux store according to the 'id'.
+    const stateItem = useSelector(state =>state.cart.items.find(stateItem => stateItem.id ===item.id) );//It will extract the current item from the Redux store according to the 'item-id'.
     const dispatch = useDispatch();
 
     const increaseCounterByOne = (e) =>{
@@ -36,7 +35,7 @@ const Listitems = ({item, updateItemTitle }) => { //We use paranthesis in props 
      return(
         <Fragment>
         <div onClick={handleModal} className={"item-card"}>
-            <img className={"img-fluid"}src={placeholder} alt={item.title} height="200vh" />
+            <img className={"img-fluid"} src={item.thumbnail} alt={item.title} height="200vh" />
             <div className={"item-card__information"}>
                 <div className='pricing'>
                    <span> ₹{item.discountedPrice}</span>
@@ -70,7 +69,7 @@ const Listitems = ({item, updateItemTitle }) => { //We use paranthesis in props 
             {/* Providng the child elements to the Modal Component under the tag declaration. */}
             <div className='item-card--modal'>
                 <div className='img-wrap'>
-                <img className={"img-fluid"}src={placeholder} alt={item.title} height="200vh" />
+                <img className={"img-fluid"}src={item.thumbnail} alt={item.title} height="200vh" />
                 </div>
                 <div className='meta'>
                     <h3>{item.title}</h3>
@@ -98,7 +97,7 @@ const Listitems = ({item, updateItemTitle }) => { //We use paranthesis in props 
             </div>
            }
             </div>
-        </Modal> }
+        </Modal > }
     </Fragment>
      )
 };

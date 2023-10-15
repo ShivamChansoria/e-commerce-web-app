@@ -7,7 +7,7 @@ const CartItem = ({data, onEmitDecreaseItem, onEmitIncreaseItem}) =>{
     return(
         <div className="checkout-modal_list-item">
         <div className="img-wrap">
-           <img src={placeholder} alt="data.title" className="img-fluid" height="100vh"/>
+           <img src={data.thumbnail} alt="data.title" className="img-fluid" height="100vh"/>
         </div>
         <div className="information">
             <h4>{data.title}</h4>

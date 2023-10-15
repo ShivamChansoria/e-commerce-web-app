@@ -1,6 +1,8 @@
 //This file is for the creating and managing of all the state reducer functions
+import { combineReducers } from "redux";
+import authReducer from "./auth";
 
-const mainReducer = (state, action) => {
+const mainReducer = (state ={ items:[], totalAmount:0 }, action) => {
       const {type, payload} = action
         switch(type){
         case "ADD_ITEM":{
@@ -63,4 +65,7 @@ const mainReducer = (state, action) => {
 
         }      
     }
-export default mainReducer;
+export default combineReducers({
+    cart: mainReducer,
+    auth: authReducer
+});
