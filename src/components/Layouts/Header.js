@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/auth";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserProfile from "../UI/User";
+
 
 
 const Header = () => {
@@ -40,7 +42,8 @@ const Header = () => {
             </div>
             {    authStatus && authStatus.idToken ?        
                 <div className="user-actions">
-                <button title="User Profile" className="material-icons">account_circle</button>
+                      <UserProfile />
+                
                 <button onClick={logoutHandler} title="Logout" className="material-icons">logout</button>
                 </div>
                          :

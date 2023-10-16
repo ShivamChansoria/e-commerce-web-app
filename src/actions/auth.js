@@ -43,6 +43,7 @@ export const loginWithEP = ( details, callback ) => {
            payload: response.data
        })
        localStorage.setItem("token", response.data.idToken);
+       localStorage.setItem("email", response.data.email);
        return callback(response.data);
    }
    catch(error){

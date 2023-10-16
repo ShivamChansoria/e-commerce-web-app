@@ -17,8 +17,10 @@ useEffect(() =>{
      dispatch(checkIsLoggedIn(() =>{}))
 },
 []);
+
+
 const authState = useSelector(state => state.auth); // because the redux store contains user ID yoken in auth
-  return (
+return (
     <div >
       <ToastContainer position="top-center" newestOnTop/>
       <Header  />

@@ -60,3 +60,11 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }/*# sourceMappingURL=index.css.map */
+
+.user-profile{
+  margin: 0;
+  padding: 0;
+  background-color: rgba(233, 96, 37, 0.877);
+  border-radius: 10px;
+  box-shadow: 10px 10px 4px lightblue;
+}
