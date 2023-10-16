@@ -22,7 +22,6 @@ const mainReducer = (state ={ items:[], totalAmount:0 }, action) => {
             // console.log(state.totalAmount);
             // console.log(payload.stateItem.discountedPrice);
             const totalAmount= state.totalAmount + payload.stateItem.discountedPrice;
-
             return {
                 ...state,
                 items: items,

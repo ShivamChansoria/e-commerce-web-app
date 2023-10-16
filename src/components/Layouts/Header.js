@@ -9,10 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
     const authStatus = useSelector(state => state.auth);
-    // console.log(authStatus);
      const navigate= useNavigate();
      const dispatch = useDispatch();
-     const notify= (message) =>{
+     const notify= (message) =>{ //Used to notify when the error is encountered with toastify.
         toast(message);
      }
 

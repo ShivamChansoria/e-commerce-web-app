@@ -23,7 +23,7 @@ export const signupWithEP = ( details, callback ) => {
         return callback({
           error: true, 
           response: error.response
-        })
+        });
     }
   }    
 }
@@ -58,7 +58,7 @@ export const loginWithEP = ( details, callback ) => {
 export const checkIsLoggedIn = (callback) =>{
   return async(dispatch) => {
     try{
-      let token = localStorage.getItem("token");
+      let token = localStorage.getItem("token");//Gettingn the token from localStorage!1
       if(!token){
         return; //If user is not logged in, not data is saved into local storage.
       }

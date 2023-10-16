@@ -1,11 +1,12 @@
 //THis file is created for handling the Cart functionalities.
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Modal from "../UI/Modal";
 import CartItem from "./CartItem";
 import Order from "./Order";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  
   addItemHandler,
   clearCartHandler,
   placeOrderHandler,
@@ -15,7 +16,6 @@ import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
-  // let totalAmount=0;
   const [showModal, setShowModal] = useState(false);
   const [orderModal, setOrderModal] = useState(false);
   const [orderId, setOrderId] = useState("");
@@ -43,6 +43,11 @@ const Cart = () => {
     // dispatch(clearCartHandler()) //Will clear the cart after placing successfull order.
     setOrderModal(!orderModal);
   };
+
+useEffect(() => {
+  localStorage.getItem("items",items);
+},[items])
+
   const handleOrder = () => {
     setShowModal(false);
     // dispatch(clearCartHandler());

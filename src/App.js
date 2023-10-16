@@ -9,14 +9,15 @@ import { checkIsLoggedIn } from "./actions/auth";
 import { ToastContainer } from "react-toastify";
 
 const App = () => {
+   //State of the items is passed to the useSelector now when the item state is changed it will be triggered!!
 
 const dispatch = useDispatch();
+
 useEffect(() =>{
      dispatch(checkIsLoggedIn(() =>{}))
 },
 []);
 const authState = useSelector(state => state.auth); // because the redux store contains user ID yoken in auth
-
   return (
     <div >
       <ToastContainer position="top-center" newestOnTop/>

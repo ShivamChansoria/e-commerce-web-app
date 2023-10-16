@@ -13,6 +13,7 @@ const SearchBox = () => {
         setSearch(queryParams || "");
 
     }, [queryStrings]);
+    
     const handleInput = e => {
         setSearch(e.target.value);
     }
