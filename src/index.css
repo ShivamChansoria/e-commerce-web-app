@@ -64,7 +64,24 @@ code {
 .user-profile{
   margin: 0;
   padding: 0;
-  background-color: rgba(233, 96, 37, 0.877);
-  border-radius: 10px;
-  box-shadow: 10px 10px 4px lightblue;
+  /* box-shadow: 10px 10px 4px lightblue; */
+}
+.user-profile img{
+  box-shadow: 10px 10px 8px rgba(233, 96, 37, 0.769);
+  border-radius: 72px;
+}
+.user-profile h2{
+  box-shadow: 10px 10px 8px  rgba(233, 96, 37, 0.769);
+    border-radius: 13px;
+    width: fit-content;
+}
+.user-profile h3{
+  box-shadow: 10px 10px 8px rgba(233, 96, 37, 0.769);
+    border-radius: 13px;
+    max-width: fit-content;
+}
+.user-profile h4{
+  box-shadow: 4px 6px 8px  rgba(233, 96, 37, 0.769);
+    border-radius: 13px;
+    width: fit-content;
 }

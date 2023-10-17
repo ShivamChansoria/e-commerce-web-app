@@ -3,6 +3,7 @@
 import { Fragment, useState } from "react";
 import Modal from "./Modal";
 import { useSelector } from "react-redux";
+import userImage from "./user_image.jpeg"
 
 const UserProfile = () =>{
 const [showUserP, setShowUserP] = useState(false);
@@ -25,8 +26,13 @@ console.log();
                  {  showUserP &&
                  <Modal onClose={handleUserP}>
                     <div className="user-profile">
+                        <span className="user-image">
+                            <img src={userImage} alt="user-profile-image" />
+                        </span>
+                    <span className="user-details">
+                        <h2>User Details </h2>
+                        </span>
                     <bold>
-                        <h2><u>User Details </u></h2>
                         <h3>  Email:  </h3>
                         </bold>
                            <span> 

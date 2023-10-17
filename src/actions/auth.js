@@ -15,7 +15,8 @@ export const signupWithEP = ( details, callback ) => {
             type: "SIGNUP",
             payload: response.data
         })
-        localStorage.setItem("token", response.data.idToken);
+       localStorage.setItem("email", response.data.email);
+       localStorage.setItem("token", response.data.idToken);
         return callback(response.data);
     }
     catch(error){
